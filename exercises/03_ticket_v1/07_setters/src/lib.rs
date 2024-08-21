@@ -10,7 +10,10 @@ pub struct Ticket {
 }
 
 impl Ticket {
-    pub fn new(title: String, description: String, status: String) -> Ticket {
+
+    fn verify_variables(title: &String, description: &String, status: &String) {
+        
+        
         if title.is_empty() {
             panic!("Title cannot be empty");
         }
@@ -26,6 +29,10 @@ impl Ticket {
         if status != "To-Do" && status != "In Progress" && status != "Done" {
             panic!("Only `To-Do`, `In Progress`, and `Done` statuses are allowed");
         }
+    }
+    pub fn new(title: String, description: String, status: String) -> Ticket {
+
+        Self::verify_variables(&title, &description, &status);
 
         Ticket {
             title,
@@ -44,6 +51,24 @@ impl Ticket {
 
     pub fn status(&self) -> &String {
         &self.status
+    }
+
+    pub fn set_title(&mut self, new_title: String) {
+
+        Self::verify_variables(&new_title, &self.description, &self.status);
+        self.title = new_title;
+    }
+
+    pub fn set_description(&mut self, new_description: String) {
+
+        Self::verify_variables(&self.title, &new_description, &self.status);
+        self.description = new_description;
+    }
+
+    pub fn set_status(&mut self, new_status: String) {
+
+        Self::verify_variables(&self.title, &self.description, &new_status);
+        self.status = new_status;
     }
 }
 
